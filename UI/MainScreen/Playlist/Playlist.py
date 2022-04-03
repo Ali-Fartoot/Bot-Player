@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 from Config.Movies import Movies
-
+import json
 
 # Playlist Page
 class Playlist(QMainWindow):
@@ -26,15 +26,9 @@ class Playlist(QMainWindow):
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.Delete)
 
-        self.moveUpButton = QPushButton("Move Up")
-        self.moveUpButton.clicked.connect(self.MoveUp)
-
-        self.moveDownButton = QPushButton("Move Down")
-        self.moveDownButton.clicked.connect(self.MoveDown)
 
         self.controlerlayout.addWidget(self.deleteButton)
-        self.controlerlayout.addWidget(self.moveUpButton)
-        self.controlerlayout.addWidget(self.moveDownButton)
+
 
         self.mainlayout.addLayout(self.playlistlayout)
         self.mainlayout.addLayout(self.controlerlayout)
@@ -43,26 +37,39 @@ class Playlist(QMainWindow):
         wid.setLayout(self.mainlayout)
         self.setCentralWidget(wid)
         ''' Data Init '''
+        self.List = []
         movies = Movies("Config/Movies.json")
-        try:
-            data = movies.ReadJSON()
-            self.isPlaylistEmpty = False
-            for keys, values in data.items():
-                self.playlist.addItem(str(keys))
-        except:
+
+        data = movies.ReadJSON()
+        if len(data) == 0:
             self.isPlaylistEmpty = True
+        else:
+            self.isPlaylistEmpty = False
+            for row in data:
+                for keys, values in row.items():
+                    self.playlist.addItem(str(values[0]))
+
+
+
 
     def CheckPlaylist(self,):
         return self.isPlaylistEmpty
 
+    def ReturnTrack(self,):
+        pass
+        # return self.TrackID
+
     def Delete(self):
-        pass
+        deletitems = self.playlist.selectedItems()
+        if not deletitems: return
+        deletitems = self.playlist.currentItem()
+        self.playlist.takeItem(self.playlist.row(deletitems))
+        movies = Movies("Config/Movies.json")
+        data = movies.ReadJSON()
+        for element in data:
+            if deletitems.text() in element:
+                element.pop(deletitems.text(),None)
 
-
-    def MoveUp(self):
-        pass
-
-
-    def MoveDown(self):
-        pass
+        with open('Config/Movies.json', 'w') as data_file:
+            json.dump(data, data_file)
 

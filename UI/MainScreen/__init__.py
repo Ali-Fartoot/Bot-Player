@@ -64,15 +64,27 @@ class App(QMainWindow):
 
         self.videoWidget = QVideoWidget()
 
+        self.List = []
+
+
+
+
         self.playButton = QPushButton()
-        self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.clicked.connect(self.play)
 
         self.stopButton = QPushButton()
-        self.stopButton.setEnabled(False)
         self.stopButton.setIcon(self.style().standardIcon(QStyle.SP_MediaStop))
         self.stopButton.clicked.connect(self.stop)
+
+        self.forwardButton = QPushButton()
+
+        self.forwardButton.setIcon(self.style().standardIcon(QStyle.SP_MediaSkipForward))
+        self.forwardButton.clicked.connect(self.forward)
+        self.backwardButton = QPushButton()
+
+        self.backwardButton.setIcon(self.style().standardIcon(QStyle.SP_MediaSkipBackward))
+        self.backwardButton.clicked.connect(self.backward)
 
         self.positionSlider = QSlider(Qt.Horizontal)
         self.positionSlider.setRange(0, 0)
@@ -92,9 +104,12 @@ class App(QMainWindow):
         # Create layouts to place inside widget
         controlLayout = QGridLayout()
         controlLayout.addWidget(self.positionSlider, 0, 0)
-        controlLayout.addWidget(self.playButton, 1, 0)
-        controlLayout.addWidget(self.stopButton, 1, 1)
-        controlLayout.addWidget(self.volumeSlider, 1, 2)
+        controlLayout.addWidget(self.backwardButton, 1, 0)
+        controlLayout.addWidget(self.playButton, 1, 1)
+        controlLayout.addWidget(self.stopButton, 1, 2)
+        controlLayout.addWidget(self.forwardButton, 1, 3)
+        controlLayout.addWidget(self.volumeSlider, 1, 4)
+
 
         mainLayout = QHBoxLayout()
         mainLayout.addWidget(self.videoWidget)
@@ -126,6 +141,12 @@ class App(QMainWindow):
     def stop(self):
         self.mediaPlayer.stop()
 
+
+    def forward(self):
+        pass
+
+    def backward(self):
+        pass
 
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -163,7 +184,8 @@ class App(QMainWindow):
             movies = Movies("Config/Movies.json")
             address = fileName
             fileName = movies.FileNameCleaning(fileName)
-            movies.WriteToJSON(dict({fileName: [fileName,address, 1198]}))
+            movies.WriteToJSON(dict({fileName: [fileName,address]}))
+
 
     # Calling AI page
     def AICall(self):
