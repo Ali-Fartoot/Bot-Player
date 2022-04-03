@@ -1,6 +1,8 @@
 import sys
 from UI.Setting.Setting import Settings
 from UI.AI.AIPage import AIPage
+from UI.MainScreen.Playlist.Playlist import Playlist
+from Config.Movies import  Movies
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -41,11 +43,18 @@ class App(QMainWindow):
         AIAction.setStatusTip('Recommendation services')
         AIAction.triggered.connect(self.AICall)
 
+        # Create Playlist
+        playlistAction = QAction('&Playlist', self)
+        playlistAction.setShortcut('Ctrl+P')
+        playlistAction.setStatusTip('Playlist')
+        playlistAction.triggered.connect(self.playlistCalling)
+
         # Create menu bar and add actions
         menuBar = self.menuBar()
         fileMenu = menuBar.addMenu('&Options')
         fileMenu.addAction(openAction)
         fileMenu.addAction(settingAction)
+        fileMenu.addAction(playlistAction)
         fileMenu.addAction(AIAction)
 
 
@@ -53,10 +62,7 @@ class App(QMainWindow):
     def VideoPlayer(self):
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
 
-        videoWidget = QVideoWidget()
-
-        self.playlist = QMediaPlaylist()
-        self.mediaPlayer.setPlaylist(self.playlist)
+        self.videoWidget = QVideoWidget()
 
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
@@ -91,8 +97,7 @@ class App(QMainWindow):
         controlLayout.addWidget(self.volumeSlider, 1, 2)
 
         mainLayout = QHBoxLayout()
-        mainLayout.addWidget(videoWidget)
-        #mainLayout.addWidget(self.playlist)
+        mainLayout.addWidget(self.videoWidget)
 
         layout = QVBoxLayout()
         layout.addLayout(mainLayout)
@@ -101,7 +106,7 @@ class App(QMainWindow):
         # Set widget to contain window contents
         wid.setLayout(layout)
 
-        self.mediaPlayer.setVideoOutput(videoWidget)
+        self.mediaPlayer.setVideoOutput(self.videoWidget)
         self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
         self.mediaPlayer.positionChanged.connect(self.positionChanged)
         self.mediaPlayer.durationChanged.connect(self.durationChanged)
@@ -155,12 +160,25 @@ class App(QMainWindow):
             self.mediaPlayer.setMedia(
                 QMediaContent(QUrl.fromLocalFile(fileName)))
             self.playButton.setEnabled(True)
+            movies = Movies("Config/Movies.json")
+            address = fileName
+            fileName = movies.FileNameCleaning(fileName)
+            movies.WriteToJSON(dict({fileName: [fileName,address, 1198]}))
 
     # Calling AI page
     def AICall(self):
         self.AIPage = AIPage()
         self.AIPage.show()
-        # QMessageBox.critical(self,"Error", "Playlist is empty.")
+        #
+
+    def playlistCalling(self):
+        self.Playlist = Playlist()
+        isPlaylistEmpty = self.Playlist.CheckPlaylist()
+        if isPlaylistEmpty == False:
+            self.Playlist.show()
+        else:
+            QMessageBox.critical(self,"Error", "Playlist is empty.")
+
 
     # Calling Setting Page
     def settingCall(self):
