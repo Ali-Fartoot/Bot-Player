@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from Config.Movies import Movies
 import json
 
+
 # Playlist Page
 class Playlist(QMainWindow):
     def __init__(self, ):
@@ -26,9 +27,7 @@ class Playlist(QMainWindow):
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.Delete)
 
-
         self.controlerlayout.addWidget(self.deleteButton)
-
 
         self.mainlayout.addLayout(self.playlistlayout)
         self.mainlayout.addLayout(self.controlerlayout)
@@ -49,13 +48,10 @@ class Playlist(QMainWindow):
                 for keys, values in row.items():
                     self.playlist.addItem(str(values[0]))
 
-
-
-
-    def CheckPlaylist(self,):
+    def CheckPlaylist(self, ):
         return self.isPlaylistEmpty
 
-    def ReturnTrack(self,):
+    def ReturnTrack(self, ):
         pass
         # return self.TrackID
 
@@ -65,11 +61,5 @@ class Playlist(QMainWindow):
         deletitems = self.playlist.currentItem()
         self.playlist.takeItem(self.playlist.row(deletitems))
         movies = Movies("Config/Movies.json")
-        data = movies.ReadJSON()
-        for element in data:
-            if deletitems.text() in element:
-                element.pop(deletitems.text(),None)
-
-        with open('Config/Movies.json', 'w') as data_file:
-            json.dump(data, data_file)
-
+        print(deletitems.text())
+        movies.DeleteMovie(deletitems.text())

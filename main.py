@@ -1,4 +1,4 @@
-from UI.MainScreen.__init__ import App
+from UI.MainScreen.MainScreen import App
 from PyQt5.QtWidgets import QApplication
 import sys
 

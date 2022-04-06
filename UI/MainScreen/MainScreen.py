@@ -10,9 +10,14 @@ from PyQt5.QtMultimedia import *
 from PyQt5.QtMultimediaWidgets import *
 
 
+currentMovie = None
+
+
+
 class App(QMainWindow):
     def __init__(self, ):
         super().__init__()
+
         self.UIinit()
         self.MenuBar()
         self.VideoPlayer()
@@ -64,7 +69,7 @@ class App(QMainWindow):
 
         self.videoWidget = QVideoWidget()
 
-        self.List = []
+
 
 
 
@@ -143,7 +148,19 @@ class App(QMainWindow):
 
 
     def forward(self):
+        # movies = Movies("Config/Movies.json")
+        # data = movies.ReadJSON()
+        # movieIndex = movies.ReturnIndex(currentMovie)
+        # moviesLength = movies.ReturnLength()
+        # currentMovie = data[]
+        # if movieIndex!= moviesLength:
+        #     self.mediaPlayer.setMedia(
+        #         QMediaContent(QUrl.fromLocalFile(currentMovie)))
+        # else:
+        #     return
         pass
+
+
 
     def backward(self):
         pass
@@ -180,6 +197,7 @@ class App(QMainWindow):
         if fileName != '':
             self.mediaPlayer.setMedia(
                 QMediaContent(QUrl.fromLocalFile(fileName)))
+            currentMovie = fileName
             self.playButton.setEnabled(True)
             movies = Movies("Config/Movies.json")
             address = fileName
