@@ -21,7 +21,6 @@ class App(QMainWindow):
         self.UIinit()
         self.MenuBar()
         self.VideoPlayer()
-
     """ initializing title and size of main screen """
 
     def UIinit(self):
@@ -148,22 +147,39 @@ class App(QMainWindow):
 
 
     def forward(self):
-        # movies = Movies("Config/Movies.json")
-        # data = movies.ReadJSON()
-        # movieIndex = movies.ReturnIndex(currentMovie)
-        # moviesLength = movies.ReturnLength()
-        # currentMovie = data[]
-        # if movieIndex!= moviesLength:
-        #     self.mediaPlayer.setMedia(
-        #         QMediaContent(QUrl.fromLocalFile(currentMovie)))
-        # else:
-        #     return
-        pass
+        movies = Movies("Config/Movies.json")
+        data = movies.ReadJSON()
+        movieIndex = movies.ReturnIndex(movies.GetCurrentMovie("Config/CurrentMovie.json")[0])
+        moviesLength = movies.ReturnLength()
+        if movieIndex + 1 != moviesLength:
+
+            temp = [info for _,info in data[movieIndex + 1].items()]
+            movies.SetCurrentMovie("Config/CurrentMovie.json",temp[0][0])
+            self.setWindowTitle(f"Bot PLayer - {temp[0][0]}")
+            self.mediaPlayer.setMedia(
+                QMediaContent(QUrl.fromLocalFile(temp[0][1])))
+            del temp
+        else:
+            return
+
 
 
 
     def backward(self):
-        pass
+        movies = Movies("Config/Movies.json")
+        data = movies.ReadJSON()
+        movieIndex = movies.ReturnIndex(movies.GetCurrentMovie("Config/CurrentMovie.json")[0])
+
+        if movieIndex != 0:
+
+            temp = [info for _,info in data[movieIndex - 1].items()]
+            movies.SetCurrentMovie("Config/CurrentMovie.json",temp[0][0])
+            self.setWindowTitle(f"Bot PLayer - {temp[0][0]}")
+            self.mediaPlayer.setMedia(
+                QMediaContent(QUrl.fromLocalFile(temp[0][1])))
+            del temp
+        else:
+            return
 
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -197,11 +213,12 @@ class App(QMainWindow):
         if fileName != '':
             self.mediaPlayer.setMedia(
                 QMediaContent(QUrl.fromLocalFile(fileName)))
-            currentMovie = fileName
             self.playButton.setEnabled(True)
             movies = Movies("Config/Movies.json")
             address = fileName
             fileName = movies.FileNameCleaning(fileName)
+            movies.SetCurrentMovie("Config/CurrentMovie.json",fileName)
+            self.setWindowTitle(f"Bot PLayer - {fileName}")
             movies.WriteToJSON(dict({fileName: [fileName,address]}))
 
 

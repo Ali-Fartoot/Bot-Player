@@ -51,15 +51,14 @@ class Playlist(QMainWindow):
     def CheckPlaylist(self, ):
         return self.isPlaylistEmpty
 
-    def ReturnTrack(self, ):
-        pass
-        # return self.TrackID
 
     def Delete(self):
-        deletitems = self.playlist.selectedItems()
-        if not deletitems: return
-        deletitems = self.playlist.currentItem()
-        self.playlist.takeItem(self.playlist.row(deletitems))
+        deleteitems = self.playlist.selectedItems()
         movies = Movies("Config/Movies.json")
-        print(deletitems.text())
-        movies.DeleteMovie(deletitems.text())
+        if not deleteitems: return
+        currentMovie = movies.GetCurrentMovie("Config/CurrentMovie.json")[0]
+        deleteitems = self.playlist.currentItem()
+        if deleteitems.text() == currentMovie: QMessageBox.critical(self, "Error", "The movie selected, already is "
+                                                                                   "playing."); return
+        self.playlist.takeItem(self.playlist.row(deleteitems))
+        movies.DeleteMovie(deleteitems.text())
