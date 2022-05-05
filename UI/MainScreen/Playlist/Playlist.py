@@ -11,7 +11,7 @@ class Playlist(QMainWindow):
     def __init__(self, ):
         super().__init__()
         self.setGeometry(300, 300, 1000, 700)
-        self.setWindowTitle("Bot PLayer - Playlist")
+        self.setWindowTitle("BoChet PLayer - Playlist")
         self.setFixedSize(400, 800)
 
         ''' UI Init '''
