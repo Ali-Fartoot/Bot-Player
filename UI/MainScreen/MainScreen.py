@@ -123,6 +123,7 @@ class App(QMainWindow):
 
         self.volumeSlider = QSlider(Qt.Horizontal)
         self.volumeSlider.setRange(0, 100)
+        self.volumeSlider.setValue(100)
         self.volumeSlider.setStyleSheet('''
                                             QSlider::groove:horizontal {
                                             border: 1px solid;
@@ -208,7 +209,6 @@ class App(QMainWindow):
 
 
 
-
     def backward(self):
         movies = Movies("Config/Movies.json")
         data = movies.ReadJSON()
@@ -273,8 +273,12 @@ class App(QMainWindow):
         self.Playlist = Playlist()
         isPlaylistEmpty = self.Playlist.CheckPlaylist()
         if isPlaylistEmpty == False:
-            self.AIPage = AIPage()
-            self.AIPage.show()
+            try:
+                self.AIPage = AIPage(title="123")
+                self.AIPage.show()
+            except:
+                QMessageBox.critical(self, "Error", "The movie doesn't exist!")
+
         else:
             QMessageBox.critical(self,"Error", "Playlist is empty.")
 
