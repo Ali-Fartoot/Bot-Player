@@ -12,6 +12,9 @@ class Playlist(QMainWindow):
         super().__init__()
         self.setGeometry(300, 300, 1000, 700)
         self.setWindowTitle("BoChet PLayer - Playlist")
+        self.setStyleSheet("background-color:  rgb(16, 16, 16);"
+                           "color: white;")
+        self.setWindowIcon(QIcon('Images/icon.PNG'))
         self.setFixedSize(400, 800)
 
         ''' UI Init '''
@@ -25,6 +28,9 @@ class Playlist(QMainWindow):
         self.controlerlayout = QHBoxLayout()
 
         self.deleteButton = QPushButton("Delete")
+        self.deleteButton.setStyleSheet("border: none;")
+        self.deleteButton.setIcon(QIcon('Images/delete-512.jpg'))
+
         self.deleteButton.clicked.connect(self.Delete)
 
         self.controlerlayout.addWidget(self.deleteButton)
