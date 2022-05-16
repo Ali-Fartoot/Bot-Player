@@ -1,5 +1,7 @@
 from typing import Dict
 import json
+import os
+import random
 
 
 class Movies:
@@ -61,11 +63,16 @@ class Movies:
         with open(address, 'r', encoding='utf-8') as file:
             data = json.load(file)
             return data
+    def SelectRandom(self):
+        rand = random.randint(0, len(self.ReadJSON()) - 1)
+        for index, value in enumerate(self.ReadJSON()[rand]):
+            return value
 
-    def DeleteData(self,address):
+    def DeleteData(self, address):
         with open(address, "w", encoding='utf-8') as file:
             json.dump([], file, indent=4)
 
         with open(self.address, "w", encoding='utf-8') as file:
             json.dump([], file, indent=4)
+
 
