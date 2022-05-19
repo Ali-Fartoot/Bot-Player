@@ -280,7 +280,8 @@ class App(QMainWindow):
             movies = Movies("Config/Movies.json")
             selected = movies.SelectRandom()
             try:
-                self.AIPage = AIPage(title=' '.join(selected.title().split()))
+                print(' '.join(selected.title().split()))
+                self.AIPage = AIPage(title= ' '.join(selected.split()))
                 self.AIPage.show()
             except:
                 QMessageBox.critical(self, "Error", "The movie doesn't exist!")

@@ -7,7 +7,7 @@ import random
 import pandas as pd
 import numpy as np
 class AI:
-    def __init__(self, address: str):
+    def __init__(self, address):
         self.address = address
         self.data = pd.read_csv(self.address)
 

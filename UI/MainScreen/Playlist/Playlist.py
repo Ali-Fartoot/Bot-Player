@@ -11,7 +11,7 @@ class Playlist(QMainWindow):
     def __init__(self, ):
         super().__init__()
         self.setGeometry(300, 300, 1000, 700)
-        self.setWindowTitle("BoChet PLayer - Playlist")
+        self.setWindowTitle("Bot PLayer - Playlist")
         self.setStyleSheet("background-color:  rgb(16, 16, 16);"
                            "color: white;")
         self.setWindowIcon(QIcon('Images/icon.PNG'))
