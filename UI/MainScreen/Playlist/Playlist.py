@@ -10,6 +10,10 @@ import json
 class Playlist(QMainWindow):
     def __init__(self, ):
         super().__init__()
+        self.UIInit()
+        self.UI()
+
+    def UIInit(self):
         self.setGeometry(300, 300, 1000, 700)
         self.setWindowTitle("Bot PLayer - Playlist")
         self.setStyleSheet("background-color:  rgb(16, 16, 16);"
@@ -17,35 +21,36 @@ class Playlist(QMainWindow):
         self.setWindowIcon(QIcon('Images/icon.PNG'))
         self.setFixedSize(400, 800)
 
-        ''' UI Init '''
+    def UI(self):
+
         self.mainlayout = QVBoxLayout()
 
+        # Create List Widget
         self.playlist = QListWidget()
-
         self.playlistlayout = QVBoxLayout()
         self.playlistlayout.addWidget(self.playlist)
-
         self.controlerlayout = QHBoxLayout()
 
+        # Create Delete Button
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.setStyleSheet("border: none;")
         self.deleteButton.setIcon(QIcon('Images/delete-512.jpg'))
-
         self.deleteButton.clicked.connect(self.Delete)
 
+        # Set Layouts
         self.controlerlayout.addWidget(self.deleteButton)
-
         self.mainlayout.addLayout(self.playlistlayout)
         self.mainlayout.addLayout(self.controlerlayout)
 
         wid = QWidget(self)
         wid.setLayout(self.mainlayout)
         self.setCentralWidget(wid)
-        ''' Data Init '''
+
+        # Data Init
         self.List = []
         movies = Movies("Config/Movies.json")
-
         data = movies.ReadJSON()
+
         if len(data) == 0:
             self.isPlaylistEmpty = True
         else:
@@ -57,14 +62,15 @@ class Playlist(QMainWindow):
     def CheckPlaylist(self, ):
         return self.isPlaylistEmpty
 
-
     def Delete(self):
-        deleteitems = self.playlist.selectedItems()
+        deleteItems = self.playlist.selectedItems()
         movies = Movies("Config/Movies.json")
-        if not deleteitems: return
+
+        # Ignore if selected Item was nothing
+        if not deleteItems: return
         currentMovie = movies.GetCurrentMovie("Config/CurrentMovie.json")[0]
-        deleteitems = self.playlist.currentItem()
-        if deleteitems.text() == currentMovie: QMessageBox.critical(self, "Error", "The movie selected, already is "
-                                                                                   "playing."); return
-        self.playlist.takeItem(self.playlist.row(deleteitems))
-        movies.DeleteMovie(deleteitems.text())
+        deleteItems = self.playlist.currentItem()
+        if deleteItems.text() == currentMovie: QMessageBox.critical(self, "Error", "The movie selected, already is "
+                                                                                   "playing!"); return 
+        self.playlist.takeItem(self.playlist.row(deleteItems))
+        movies.DeleteMovie(deleteItems.text())

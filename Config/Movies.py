@@ -63,6 +63,7 @@ class Movies:
         with open(address, 'r', encoding='utf-8') as file:
             data = json.load(file)
             return data
+
     def SelectRandom(self):
         rand = random.randint(0, len(self.ReadJSON()) - 1)
         for index, value in enumerate(self.ReadJSON()[rand]):

@@ -1,6 +1,7 @@
 import json
 from typing import List
 
+# Create
 class Setting:
     def __init__(self,address):
         self.address = address

@@ -4,32 +4,40 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 from Config.Settings import Setting
 
-# Setting Page
+
+# Create Setting Page
 class Settings(QWidget):
     def __init__(self, ):
         super().__init__()
-        self.setGeometry(300, 300, 1000, 700)
-        self.setWindowTitle("Bot PLayer - Settings")
-        self.setStyleSheet("background-color:  rgb(50, 50, 50);"
-                           "color: white;")
-        self.setFixedSize(700, 400)
+        self.UIInit()
+        self.UI()
 
+    def UI(self):
+
+        # Create Button Groups
         self.btngroup1 = QButtonGroup()
         self.btngroup2 = QButtonGroup()
         self.btngroup3 = QButtonGroup()
 
+        # Data Init
         setting = Setting("UI/Setting/Settings.json")
         list = setting.ReadJSON()
+
+        # Create Layouts
         layout = QVBoxLayout()
         self.setLayout(layout)
-
         Hlayout = QHBoxLayout()
-        ###############################Part1###############################
-        self.labelOne = QLabel("--------------------------------------------------Recommendation 1--------------------------------------------------")
-        self.labelOne.setAlignment(Qt.AlignCenter)
 
+        ###############################Part1###############################
+
+        # Create Label One
+        self.labelOne = QLabel(
+            "--------------------------------------------------Recommendation "
+            "1--------------------------------------------------")
+        self.labelOne.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelOne)
 
+        # Create Radio Buttons and add to the layout
         self.RButton1 = QRadioButton("1")
         Hlayout.addWidget(self.RButton1)
         if list[0] == '1': self.RButton1.setChecked(True)
@@ -46,11 +54,9 @@ class Settings(QWidget):
         Hlayout.addWidget(self.RButton4)
         if list[0] == '4': self.RButton4.setChecked(True)
 
-
         self.RButton5 = QRadioButton("5")
         Hlayout.addWidget(self.RButton5)
         if list[0] == '5': self.RButton5.setChecked(True)
-
 
         self.btngroup1.addButton(self.RButton1)
         self.btngroup1.addButton(self.RButton2)
@@ -61,16 +67,18 @@ class Settings(QWidget):
         layout.addLayout(Hlayout)
 
         ###############################Part2###############################
-        self.labelTwo = QLabel("--------------------------------------------------Recommendation 2--------------------------------------------------")
+        # Create Label Two
+        self.labelTwo = QLabel(
+            "--------------------------------------------------Recommendation "
+            "2--------------------------------------------------")
         self.labelTwo.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelTwo)
-
         Hlayout1 = QHBoxLayout()
 
+        # Create Radio Buttons and add to the layout
         self.RButton6 = QRadioButton("1")
         Hlayout1.addWidget(self.RButton6)
         if list[1] == '1': self.RButton6.setChecked(True)
-
 
         self.RButton7 = QRadioButton("2")
         Hlayout1.addWidget(self.RButton7)
@@ -80,16 +88,13 @@ class Settings(QWidget):
         Hlayout1.addWidget(self.RButton8)
         if list[1] == '3': self.RButton8.setChecked(True)
 
-
         self.RButton9 = QRadioButton("4")
         Hlayout1.addWidget(self.RButton9)
         if list[1] == '4': self.RButton9.setChecked(True)
 
-
         self.RButton10 = QRadioButton("5")
         Hlayout1.addWidget(self.RButton10)
         if list[1] == '5': self.RButton10.setChecked(True)
-
 
         self.btngroup2.addButton(self.RButton6)
         self.btngroup2.addButton(self.RButton7)
@@ -100,12 +105,15 @@ class Settings(QWidget):
         layout.addLayout(Hlayout1)
 
         ###############################Part3###############################
-        self.labelThree = QLabel("--------------------------------------------------Recommendation 3--------------------------------------------------")
+        # Create Label Three
+
+        self.labelThree = QLabel("--------------------------------------------------Recommendation "
+                                 "3--------------------------------------------------")
         self.labelThree.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelThree)
-
         Hlayout2 = QHBoxLayout()
 
+        # Create Radio Buttons and add to the layout
         self.RButton11 = QRadioButton("1")
         Hlayout2.addWidget(self.RButton11)
         if list[2] == '1': self.RButton11.setChecked(True)
@@ -122,26 +130,28 @@ class Settings(QWidget):
         Hlayout2.addWidget(self.RButton14)
         if list[2] == '4': self.RButton14.setChecked(True)
 
-
         self.RButton15 = QRadioButton("5")
         Hlayout2.addWidget(self.RButton15)
         if list[2] == '5': self.RButton15.setChecked(True)
-
 
         self.btngroup3.addButton(self.RButton11)
         self.btngroup3.addButton(self.RButton12)
         self.btngroup3.addButton(self.RButton13)
         self.btngroup3.addButton(self.RButton14)
         self.btngroup3.addButton(self.RButton15)
-
         layout.addLayout(Hlayout2)
 
-
-        self.pushbutton =  QPushButton("Evaluate")
+        # Create Evaluate Button and add to the layout
+        self.pushbutton = QPushButton("Evaluate")
+        self.pushbutton.setStyleSheet("border: none;")
         self.pushbutton.clicked.connect(self.Evaluate)
         layout.addWidget(self.pushbutton)
 
-
+    def UIInit(self):
+        self.setGeometry(300, 300, 1000, 700)
+        self.setWindowTitle("Bot PLayer - Settings")
+        self.setStyleSheet("background-color:  rgb(50, 50, 50); color: white;")
+        self.setFixedSize(700, 400)
 
     def Evaluate(self):
         list = []
@@ -160,7 +170,6 @@ class Settings(QWidget):
 
         if self.RButton5.isChecked():
             list.append("5")
-
 
         if self.RButton6.isChecked():
             list.append("1")
@@ -192,9 +201,6 @@ class Settings(QWidget):
         if self.RButton15.isChecked():
             list.append("5")
 
+        # Save Data
         setting = Setting("UI/Setting/Settings.json")
-        setting.WriteToJSON(data  = list)
-
-
-
-
+        setting.WriteToJSON(data=list)
