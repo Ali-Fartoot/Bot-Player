@@ -9,6 +9,9 @@
 
 A **python** and **pyqt** base video player, which has a recommender system base on [This Dataset](). This system allows user to find **3** type of familiar movies related on it's movies in playlist.
 
+![Player](https://github.com/Ali-Fartout/Bot-Player/blob/master/Images/Player.PNG).
+![AI](https://github.com/Ali-Fartout/Bot-Player/blob/master/Images/AI.PNG).
+
 These are 3 types :
 
 | Name |
@@ -26,7 +29,7 @@ That's simple. Pyqt control UI and video player. It has four option.
 3) AI. According to previous explanation return three type of movies
 4) Setting which allows you to change the number movies from each recommendation types.
    
-
+![UML](https://github.com/Ali-Fartout/Bot-Player/blob/master/Images/UML.PNG).
 
 
 ## libraries
