@@ -1,41 +1,47 @@
-import sys
-from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from Config.AI import AI
-from PyQt5.Qt import QApplication, QUrl, QDesktopServices,QIcon
+from PyQt5.Qt import QApplication, QUrl, QDesktopServices, QIcon
 from PyQt5.QtGui import QFont
 from Config.Settings import Setting
 
 
+# create AI page
 class AIPage(QWidget):
-    def __init__(self,title):
+    '''
+        Parameters:
+            title : a string describe window page
+    '''
+
+    def __init__(self, title):
         super().__init__()
+
+        # read data
         ai = AI("Config/metaData.csv")
+
+        # read json file for limitation
         setting = Setting("UI/Setting/Settings.json")
         settingList = setting.ReadJSON()
         settingList = [int(x) for x in settingList]
+
+        # define layout
         layout = QVBoxLayout()
         self.setLayout(layout)
-
         self.title = title
+
+        # init a variable for result
         self.dataOne = ai.RecommenderOne()
         self.dataTwo = ai.RecommenderTwo(self.title)
         self.dataThree = ai.RecommenderThree(self.title)
         self.setWindowIcon(QIcon('../../Images/icon.PNG'))
 
-
         self.setStyleSheet("background-color:  rgb(50, 50, 50);"
                            "color: white;"
                            "border: none;")
 
-        """ initializing title and size of main screen """
-
-
+        #  initializing title, size of main screen, font
         self.setWindowTitle("Bot PLayer - AI")
         self.setFixedSize(1000, 800)
-
-
 
         custom_font = QFont()
         custom_font.setPixelSize(20)
@@ -43,12 +49,13 @@ class AIPage(QWidget):
         self.labelOne = QLabel(f"{settingList[0]} Movies (choose randomly)!From Top 30 Movies ")
         self.labelOne.setAlignment(Qt.AlignCenter)
 
-
         layout.addWidget(self.labelOne)
         Hlayout = QHBoxLayout()
 
         count = 0
-        if  settingList[0] > count :
+
+        #  display items limitation stuff
+        if settingList[0] > count:
             self.button1 = QPushButton(list(self.dataOne)[0])
             Hlayout.addWidget(self.button1)
             self.button1.clicked.connect(lambda: self.openInternalOne(self.button1.text()))
@@ -60,20 +67,17 @@ class AIPage(QWidget):
             self.button2.clicked.connect(lambda: self.openInternalOne(self.button2.text()))
             count = count + 1
 
-
         if settingList[0] > count:
             self.button3 = QPushButton(list(self.dataOne)[2])
             Hlayout.addWidget(self.button3)
             self.button3.clicked.connect(lambda: self.openInternalOne(self.button3.text()))
             count = count + 1
 
-
         if settingList[0] > count:
             self.button4 = QPushButton(list(self.dataOne)[3])
             Hlayout.addWidget(self.button4)
             self.button4.clicked.connect(lambda: self.openInternalOne(self.button4.text()))
             count = count + 1
-
 
         if settingList[0] > count:
             self.button5 = QPushButton(list(self.dataOne)[4])
@@ -126,8 +130,9 @@ class AIPage(QWidget):
 
         ####################### Recommender Three #####################
         Hlayout = QHBoxLayout()
-        self.labelThree = QLabel(f"{settingList[2]} Similar Movies Estimated By cast, Director And Genres! From {self.title} ")
-        self.labelThree .setAlignment(Qt.AlignCenter)
+        self.labelThree = QLabel(
+            f"{settingList[2]} Similar Movies Estimated By cast, Director And Genres! From {self.title} ")
+        self.labelThree.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelThree)
         count = 0
 
@@ -137,13 +142,11 @@ class AIPage(QWidget):
             self.button11.clicked.connect(lambda: self.openInternalThree(self.button11.text()))
             count = count + 1
 
-
         if settingList[2] > count:
             self.button12 = QPushButton(list(self.dataThree)[1])
             Hlayout.addWidget(self.button12)
             self.button12.clicked.connect(lambda: self.openInternalThree(self.button12.text()))
             count = count + 1
-
 
         if settingList[2] > count:
             self.button13 = QPushButton(list(self.dataThree)[2])
@@ -151,13 +154,11 @@ class AIPage(QWidget):
             self.button13.clicked.connect(lambda: self.openInternalThree(self.button13.text()))
             count = count + 1
 
-
         if settingList[2] > count:
             self.button14 = QPushButton(list(self.dataThree)[3])
             Hlayout.addWidget(self.button14)
             self.button14.clicked.connect(lambda: self.openInternalThree(self.button14.text()))
             count = count + 1
-
 
         if settingList[2] > count:
             self.button15 = QPushButton(list(self.dataThree)[4])
@@ -166,7 +167,7 @@ class AIPage(QWidget):
             count = count + 1
 
         layout.addLayout(Hlayout)
-
+    # open link
     def openInternalOne(self, name):
         link = self.dataOne[name]
         link = QUrl(link)
@@ -177,9 +178,7 @@ class AIPage(QWidget):
         link = QUrl(link)
         QDesktopServices.openUrl(link)
 
-
     def openInternalThree(self, name):
         link = self.dataThree[name]
         link = QUrl(link)
         QDesktopServices.openUrl(link)
-

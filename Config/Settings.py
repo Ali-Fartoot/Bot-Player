@@ -8,14 +8,10 @@ class Setting:
 
     def ReadJSON(self, ):
         with open(self.address, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            return data
+            return json.load(file)
 
     def WriteToJSON(self, data: List[str]):
 
-        jsonFile = []
-        for values in data:
-            jsonFile.append(values)
-
+        jsonFile = list(data)
         with open(self.address, "w", encoding='utf-8') as file:
             json.dump(jsonFile, file, indent=4)

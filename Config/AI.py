@@ -6,6 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import random
 import pandas as pd
 import numpy as np
+
+
 class AI:
     def __init__(self, address):
         self.address = address
@@ -14,17 +16,15 @@ class AI:
     # Get ID By Name
     def GetIDByName(self, name):
         temp = self.data.loc[self.data['title'] == name]
-        return temp.iloc[0,13]
+        return temp.iloc[0, 13]
 
-    def RecommenderOne(self,):
-        temp = self.data.sort_values(by=['score'],ascending=False)
-        List = {}
-        rands = random.sample(range(0, 50), 5)
-        for i in range(5):
-            List[temp.iloc[rands[i],3]] = "https://www.imdb.com/title/" + str(self.GetIDByName(name=temp.iloc[rands[i],3]) +"/")
-        return List
+    def RecommenderOne(self, ):
+        temp = self.data.sort_values(by=['score'], ascending=False)
+        rands = random.sample(range(50), 5)
+        return {temp.iloc[rands[i], 3]: "https://www.imdb.com/title/" + str(
+            self.GetIDByName(name=temp.iloc[rands[i], 3]) + "/") for i in range(5)}
 
-    def RecommenderTwo(self,title):
+    def RecommenderTwo(self, title):
         # Define a TF-IDF Vectorizer Object. Remove all english stopwords
         tfidf = TfidfVectorizer(stop_words='english')
 
@@ -56,15 +56,9 @@ class AI:
         # Return the top 10 most similar movies
         temp = list(set(self.data['title'].iloc[movie_indices]))
 
+        return {temp[i]: "https://www.imdb.com/title/" + str(self.GetIDByName(name=temp[i]) + "/") for i in range(5)}
 
-        List = {}
-
-        for i in range(5):
-            List[temp[i]] = "https://www.imdb.com/title/" + str(self.GetIDByName(name=temp[i]) + "/")
-
-        return List
-
-    def RecommenderThree(self,title):
+    def RecommenderThree(self, title):
         count = CountVectorizer(stop_words='english')
         count_matrix = count.fit_transform(self.data['soup'])
         cosine_sim = cosine_similarity(count_matrix, count_matrix)
@@ -90,12 +84,4 @@ class AI:
         # Return the top 10 most similar movies
         temp = list(set(self.data['title'].iloc[movie_indices]))
 
-
-        List = {}
-
-        for i in range(5):
-            List[temp[i]] = "https://www.imdb.com/title/" + str(self.GetIDByName(name=temp[i]) +"/")
-
-        return List
-
-
+        return {temp[i]: "https://www.imdb.com/title/" + str(self.GetIDByName(name=temp[i]) + "/") for i in range(5)}

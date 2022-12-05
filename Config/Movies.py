@@ -11,8 +11,7 @@ class Movies:
 
     def ReadJSON(self, ):
         with open(self.address, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            return data
+            return json.load(file)
 
     def WriteToJSON(self, data: Dict[int, list]):
 
@@ -22,7 +21,7 @@ class Movies:
                 for obj in jsonFile:
                     if keys in obj:
                         return
-                output = {self.FileNameCleaning(keys): [x for x in values]}
+                output = {self.FileNameCleaning(keys): list(values)}
             jsonFile.append(output)
 
         with open(self.address, "w", encoding='utf-8') as file:
@@ -43,11 +42,7 @@ class Movies:
 
     def DeleteMovie(self, key):
         data = self.ReadJSON()
-        output = []
-        for obj in data:
-            if key not in obj:
-                output.append(obj)
-
+        output = [obj for obj in data if key not in obj]
         with open(self.address, 'w', encoding='utf-8') as file:
             json.dump(output, file)
 
@@ -61,12 +56,11 @@ class Movies:
 
     def GetCurrentMovie(self, address):
         with open(address, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            return data
+            return json.load(file)
 
     def SelectRandom(self):
         rand = random.randint(0, len(self.ReadJSON()) - 1)
-        for index, value in enumerate(self.ReadJSON()[rand]):
+        for value in self.ReadJSON()[rand]:
             return value
 
     def DeleteData(self, address):

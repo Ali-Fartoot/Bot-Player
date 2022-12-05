@@ -63,7 +63,6 @@ class Settings(QWidget):
         self.btngroup1.addButton(self.RButton3)
         self.btngroup1.addButton(self.RButton4)
         self.btngroup1.addButton(self.RButton5)
-
         layout.addLayout(Hlayout)
 
         ###############################Part2###############################
@@ -101,12 +100,11 @@ class Settings(QWidget):
         self.btngroup2.addButton(self.RButton8)
         self.btngroup2.addButton(self.RButton9)
         self.btngroup2.addButton(self.RButton10)
-
         layout.addLayout(Hlayout1)
 
         ###############################Part3###############################
-        # Create Label Three
 
+        # Create Label Three
         self.labelThree = QLabel("--------------------------------------------------Recommendation "
                                  "3--------------------------------------------------")
         self.labelThree.setAlignment(Qt.AlignCenter)
@@ -147,6 +145,7 @@ class Settings(QWidget):
         self.pushbutton.clicked.connect(self.Evaluate)
         layout.addWidget(self.pushbutton)
 
+    #
     def UIInit(self):
         self.setGeometry(300, 300, 1000, 700)
         self.setWindowTitle("Bot PLayer - Settings")

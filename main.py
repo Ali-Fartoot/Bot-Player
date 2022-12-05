@@ -8,6 +8,7 @@ if __name__ == '__main__':
     window = App()
     window.show()
     app.exec()
+
     # Delete Data after closing app
     movies = Movies("Config/Movies.json")
     movies.DeleteData("Config/CurrentMovie.json")
