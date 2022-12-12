@@ -8,10 +8,6 @@ from Config.Settings import Setting
 
 # create AI page
 class AIPage(QWidget):
-    '''
-        Parameters:
-            title : a string describe window page
-    '''
 
     def __init__(self, title):
         super().__init__()
@@ -26,6 +22,7 @@ class AIPage(QWidget):
 
         # define layout
         layout = QVBoxLayout()
+        layout.setSpacing(50)
         self.setLayout(layout)
         self.title = title
 
@@ -46,11 +43,12 @@ class AIPage(QWidget):
         custom_font = QFont()
         custom_font.setPixelSize(20)
         QApplication.setFont(custom_font, "QLabel")
-        self.labelOne = QLabel(f"{settingList[0]} Movies (choose randomly)!From Top 30 Movies ")
+        self.labelOne = QLabel(f"------------------------------ {settingList[0]} Movies (choose randomly)!From Top 30 Movies ------------------------------")
         self.labelOne.setAlignment(Qt.AlignCenter)
 
         layout.addWidget(self.labelOne)
         Hlayout = QHBoxLayout()
+        Hlayout.setSpacing(50)
 
         count = 0
 
@@ -89,8 +87,8 @@ class AIPage(QWidget):
 
         ####################### Recommender Two #####################
         Hlayout = QHBoxLayout()
-
-        self.labelTwo = QLabel(f"{settingList[1]} Similar Movies Estimated By Overview! From {self.title} ")
+        Hlayout.setSpacing(50)
+        self.labelTwo = QLabel(f" -------------------------- {settingList[1]} Similar Movies Estimated By Overview! From {self.title} --------------------------")
 
         self.labelTwo.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelTwo)
@@ -130,8 +128,9 @@ class AIPage(QWidget):
 
         ####################### Recommender Three #####################
         Hlayout = QHBoxLayout()
+        Hlayout.setSpacing(50)
         self.labelThree = QLabel(
-            f"{settingList[2]} Similar Movies Estimated By cast, Director And Genres! From {self.title} ")
+            f" ---------------- {settingList[2]} Similar Movies Estimated By cast, Director And Genres! From {self.title} ---------------- ")
         self.labelThree.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelThree)
         count = 0

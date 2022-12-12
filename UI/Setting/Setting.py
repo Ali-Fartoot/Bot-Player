@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QPainter, QIcon, QPen
 from PyQt5.QtWidgets import *
 from Config.Settings import Setting
 
@@ -27,13 +27,14 @@ class Settings(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
         Hlayout = QHBoxLayout()
+        Hlayout.setSpacing(50)
 
         ###############################Part1###############################
 
         # Create Label One
         self.labelOne = QLabel(
-            "--------------------------------------------------Recommendation "
-            "1--------------------------------------------------")
+            "--------------------------------------------------------------------- Recommendation "
+            "1 ----------------------------------------------------------------------")
         self.labelOne.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelOne)
 
@@ -68,8 +69,8 @@ class Settings(QWidget):
         ###############################Part2###############################
         # Create Label Two
         self.labelTwo = QLabel(
-            "--------------------------------------------------Recommendation "
-            "2--------------------------------------------------")
+            "--------------------------------------------------------------------- Recommendation "
+            "2 ----------------------------------------------------------------------")
         self.labelTwo.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelTwo)
         Hlayout1 = QHBoxLayout()
@@ -105,8 +106,8 @@ class Settings(QWidget):
         ###############################Part3###############################
 
         # Create Label Three
-        self.labelThree = QLabel("--------------------------------------------------Recommendation "
-                                 "3--------------------------------------------------")
+        self.labelThree = QLabel("--------------------------------------------------------------------- Recommendation "
+                                 "3 ----------------------------------------------------------------------")
         self.labelThree.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.labelThree)
         Hlayout2 = QHBoxLayout()
@@ -139,11 +140,20 @@ class Settings(QWidget):
         self.btngroup3.addButton(self.RButton15)
         layout.addLayout(Hlayout2)
 
-        # Create Evaluate Button and add to the layout
-        self.pushbutton = QPushButton("Evaluate")
-        self.pushbutton.setStyleSheet("border: none;")
-        self.pushbutton.clicked.connect(self.Evaluate)
-        layout.addWidget(self.pushbutton)
+        # Create Admit Button and add to the layout
+        self.admit = QPushButton()
+        self.admit.setStyleSheet("border: none;")
+        self.admit.setIcon(QIcon('Images/download.png'))
+        self.admit.clicked.connect(self.Evaluate)
+
+        # size
+        size = QSize(50, 50)
+        # setting icon size
+        self.admit.setIconSize(size)
+
+        layout.addWidget(self.admit)
+
+
 
     #
     def UIInit(self):

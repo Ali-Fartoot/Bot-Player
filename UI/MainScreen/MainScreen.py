@@ -178,9 +178,8 @@ class App(QMainWindow):
     def CheckDataType(self, address):
         if address.lower().endswith(('.mp4', '.mov', '.avi', '.mkv', '.wmv')):
             return True
-        else:
-            QMessageBox.critical(self, "Error", "Supported formats : .mp4 .mov .avi .mkv .wmv ")
-            return False
+        QMessageBox.critical(self, "Error", "Supported formats : .mp4 .mov .avi .mkv .wmv ")
+        return False
 
     def Forward(self):
         try:
@@ -198,7 +197,7 @@ class App(QMainWindow):
                 del temp
             else:
                 return
-        except:
+        except Exception:
             return
 
     def Backward(self):
@@ -217,7 +216,7 @@ class App(QMainWindow):
                 del temp
             else:
                 return
-        except:
+        except Exception:
             return
 
     def MediaStateChanged(self, state):
@@ -269,7 +268,7 @@ class App(QMainWindow):
                 print(' '.join(selected.title().split()))
                 self.AIPage = AIPage(title=' '.join(selected.split()))
                 self.AIPage.show()
-            except:
+            except Exception:
                 QMessageBox.critical(self, "Error", "The movie doesn't exist!")
 
         else:
