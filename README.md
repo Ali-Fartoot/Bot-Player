@@ -2,9 +2,10 @@
 - [Bot Player](#bot-player)
   - [Description](#description)
   - [Architect](#architect)
+  - [AI Architect](#AI-Architect)
   - [libraries](#libraries)
   - [How to use Program](#how-to-use-program)
-  - [AI Architect (coming soon!)]()
+  
 
 ## Description
 
@@ -32,6 +33,8 @@ That's simple. Pyqt control UI and video player. It has four option.
    
 ![UML](https://github.com/Ali-Fartout/Bot-Player/blob/master/Images/UML.PNG).
 
+
+## AI Architect
 
 ## libraries
 
